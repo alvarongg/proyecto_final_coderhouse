@@ -1,9 +1,10 @@
 const express = require("express");
 const productRouter = express.Router();
 console.log("Router Productos cargados");
+const moment = require('moment'); 
 
-let Contenedor = require("../models/contenedor.js");
-let productos = new Contenedor();
+let productContainer = require("../models/productContainer.js");
+let productos = new productContainer('productos.txt');
 
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
@@ -14,6 +15,10 @@ function getAllProd(){
 
 function saveProd(obj){
   productos.save(obj);
+}
+
+function getProd(id){
+  productos.getById(id);
 }
 
 
@@ -27,10 +32,10 @@ productRouter.get("/", (req, res) => {
 });
 
 //devuelve solo el producto que necesito con el id pasado por get
-productRouter.get("/:id", (req, res) => {
+ productRouter.get("/:id", (req, res) => {
   try {
     let id = parseInt(req.params.id);
-    let obj = productos.getById(id);
+    let obj =  productos.getById(id);
 
     res.send(obj);
   } catch (error) {
@@ -39,17 +44,20 @@ productRouter.get("/:id", (req, res) => {
 });
 
 //recibe y agrega el producto pasado por post
-productRouter.post("/", (req, res) => {
+productRouter.post("/", async (req, res) => {
   try {
     let obj = {};
 
-    obj.title = req.body.title;
+    obj.timestamp = moment();
+    obj.name = req.body.name;
+    obj.description = req.body.description;
+    obj.code = req.body.code;
     obj.price = req.body.price;
+    obj.stock = req.body.stock;
     obj.thumbnail = req.body.thumbnail;
-    let id = productos.save(obj);
-
-    res.send({ id });
-
+    let id = await productos.save(obj);
+                
+    res.send({id});
     console.log(`Nuevo producto id: ${id} `);
   } catch (error) {
     throw new Error("Hubo un error al agregar el producto");
@@ -86,4 +94,4 @@ productRouter.delete("/:id", (req, res) => {
   }
 });
 
-module.exports = {productRouter,getAllProd,saveProd};
+module.exports = {productRouter,getAllProd,saveProd,getProd};

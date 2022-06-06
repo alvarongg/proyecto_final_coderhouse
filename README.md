@@ -28,17 +28,15 @@ npm run start
 * DELETE http://localhost8080/api/productos/:id -- Borra un producto por su id (disponible para administradores)
 
 ## API Endpoint Carrito
-* POST http://localhost8080/api/carrito -- Crea un carrito y devuelve su id. 
-* DELETE http://localhost8080/api/carrito/:id -- Vacía un carrito y lo elimina.
-* GET http://localhost8080/api/carrito/:id/productos -- Me permite listar todos los productos guardados en el carrito
-* POST http://localhost8080/api/carrito/:id/productos -- Para incorporar productos al carrito por su id de producto
-* DELETE http://localhost8080/api/carrito/:id/productos -- Eliminar un producto del carrito por su id de carrito y de producto
+* x POST http://localhost8080/api/carrito -- Crea un carrito y devuelve su id. 
+* x DELETE http://localhost8080/api/carrito/:id -- Vacía un carrito y lo elimina.
+* x GET http://localhost8080/api/carrito/:id/productos -- Me permite listar todos los productos guardados en el carrito
+* x POST http://localhost8080/api/carrito/:id/productos -- Para incorporar productos al carrito por su id de producto
+* x DELETE http://localhost8080/api/carrito/:id/productos -- Eliminar un producto del carrito por su id de carrito y de producto
 
 ## Construido con 🛠️
 
 * [Express🛰️](https://expressjs.com/es/4x/api.html)
-* [Handlebars](https://handlebarsjs.com/)
-* [Bootstrap](https://getbootstrap.com/)
 * [Moment.js](https://momentjs.com)
 
 
