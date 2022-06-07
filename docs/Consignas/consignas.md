@@ -1,11 +1,11 @@
 # Consigna 1
 
-![1](docs/Consignas/Consigna 1/Clase 14 -  Webpack_ Module Bundler-1.jpg)
+![1](Consigna 1/Clase 14 -  Webpack_ Module Bundler-1.png)
 
-![2](docs/Consignas/Consigna 1/Clase 14 -  Webpack_ Module Bundler-2.jpg)
+![2](Consigna 1/Clase 14 -  Webpack_ Module Bundler-2.png)
 
-![3](docs/Consignas/Consigna 1/Clase 14 -  Webpack_ Module Bundler-3.jpg)
+![3](Consigna 1/Clase 14 -  Webpack_ Module Bundler-3.png)
 
-![4](docs/Consignas/Consigna 1/Clase 14 -  Webpack_ Module Bundler-4.jpg)
+![4](Consigna 1/Clase 14 -  Webpack_ Module Bundler-4.png)
 
-![5](docs/Consignas/Consigna 1/Clase 14 -  Webpack_ Module Bundler-5.jpg)
+![5](Consigna 1/Clase 14 -  Webpack_ Module Bundler-5.png)
