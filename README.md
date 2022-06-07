@@ -15,10 +15,6 @@ npm i
 npm run start
 ```
 
-## Web Endpoits 
-
-* [Web Productos](http://localhost8080/productos)
-* [Web Carrito](http://localhost8080/carrito)
 
 ## API Endpoint Producto
 * GET http://localhost8080/api/productos -- Me permite listar todos los productos disponibles (disponible para usuarios y administradores)
