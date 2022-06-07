@@ -50,8 +50,8 @@ const arrayToFile = async (fileName, array) => {
 const fileChecker = async (fileName) => {
   //chequeo que el archivo exista si no existe lo creo
   const stats = fs.existsSync(fileName);
-
-  if (stats) {
+ 
+  if (!(stats)) {
     console.log(`Creo archivo vacio: ${fileName}`);
     await createEmptyFile(fileName);
   }

@@ -51,7 +51,7 @@ const fileChecker = async (fileName) => {
   //chequeo que el archivo exista si no existe lo creo
   const stats = fs.existsSync(fileName);
 
-  if (stats) {
+  if (!(stats)) {
     console.log(`Creo archivo vacio: ${fileName}`);
     await createEmptyFile(fileName);
   }
@@ -102,15 +102,15 @@ module.exports = class cartContainer {
    async getCartById(id) {
     try {
 
-       //chequeo que el archivo exista si no existe lo creo
+       //console.log(`chequeo que el archivo exista si no existe lo creo`)
        await fileChecker(this.fileName);
-
+       //console.log(`traigo datos y los meto en array`)
       let array = await fileToArray(this.fileName);
-
+      //console.log(`filtro array`)
       array = array.filter((x) => {
         return x.id == id;
       });
-
+      //console.log(`contenido filtrado ${array}`);
       if (array[0] == undefined) {
         return { error: "Carrito no encontrado" };
       } else {
@@ -126,7 +126,7 @@ module.exports = class cartContainer {
    * @param {int} id
    * @returns Devuelve el objeto si lo encuentra
    */
-  async addProdTCartById(obj) {
+  async addProdToCartById(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
         await fileChecker(this.fileName);
@@ -140,7 +140,7 @@ module.exports = class cartContainer {
         return { error: "Carrito no encontrado" };
       } else {
 
-        array[objIndex].productos.push(obj.productId);
+        array[objIndex].productos.push(obj.productos[0]);
 
         await arrayToFile(this.fileName, array);
         return { estado: "Carrito actualizado" };
@@ -191,8 +191,8 @@ module.exports = class cartContainer {
   }
 
   /**
-   * Borra el objeto con le id seleccionado en el array
-   * @param {int} id
+   * Borra el producto con le id carrito y id produ seleccionado en el array
+   * @param {obj} .id_cart .id_prod
    */
    async deleteProductoToCartById(obj) {
     try {
@@ -211,7 +211,7 @@ module.exports = class cartContainer {
         let arrayCart =  array[objIndex].productos
     
         arrayCart = arrayCart.filter((x) => {
-            return x.id != obj.productId;
+            return x.id != obj.id_prod;
           });
         
         array[objIndex].productos = arrayCart;

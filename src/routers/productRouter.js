@@ -1,42 +1,46 @@
 const express = require("express");
 const productRouter = express.Router();
-console.log("Router Productos cargados");
+const path = require('path');
 const moment = require('moment'); 
+console.log("Router Productos cargados");
+
 
 let productContainer = require("../models/productContainer.js");
-let productos = new productContainer('productos.txt');
+let archivo_path = path.join(__dirname, '..', '/data/productos.json');
+let productos = new productContainer(archivo_path);
 
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
 
-function getAllProd(){
-  return productos.getAll();
-}
+// function getAllProd(){
+//   return productos.getAll();
+// }
 
-function saveProd(obj){
-  productos.save(obj);
-}
+// function saveProd(obj){
+//   return productos.save(obj);
+// }
 
 function getProd(id){
-  productos.getById(id);
+  return productos.getById(id);
 }
 
-
 //devuelve todos los productos
-productRouter.get("/", (req, res) => {
+//no valida permisos
+productRouter.get("/", async (req, res) => {
   try {
-    res.send(productos.getAll());
+    res.send(await productos.getAll());
   } catch (error) {
     throw new Error("Hubo un error al listar todos los productos");
   }
 });
 
 //devuelve solo el producto que necesito con el id pasado por get
- productRouter.get("/:id", (req, res) => {
+//no valida permisos
+ productRouter.get("/:id", async (req, res) => {
   try {
     let id = parseInt(req.params.id);
-    let obj =  productos.getById(id);
-
+    let obj = await productos.getById(id);
+    console.log(obj);
     res.send(obj);
   } catch (error) {
     throw new Error("Hubo un error al listar el producto seleccionado");
@@ -44,51 +48,71 @@ productRouter.get("/", (req, res) => {
 });
 
 //recibe y agrega el producto pasado por post
+//solo admins
 productRouter.post("/", async (req, res) => {
   try {
-    let obj = {};
+    if(req.body.adminStatus){
+            let obj = {};
 
-    obj.timestamp = moment();
-    obj.name = req.body.name;
-    obj.description = req.body.description;
-    obj.code = req.body.code;
-    obj.price = req.body.price;
-    obj.stock = req.body.stock;
-    obj.thumbnail = req.body.thumbnail;
-    let id = await productos.save(obj);
-                
-    res.send({id});
-    console.log(`Nuevo producto id: ${id} `);
+            obj.timestamp = moment();
+            obj.name = req.body.name;
+            obj.description = req.body.description;
+            obj.code = req.body.code;
+            obj.price = req.body.price;
+            obj.stock = req.body.stock;
+            obj.thumbnail = req.body.thumbnail;
+            let id = await productos.save(obj);
+                        
+            res.send({id});
+            console.log(`Nuevo producto id: ${id} `);
+  }
+  else {res.json({
+    error: 
+      '-1'
+    , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+  });}
   } catch (error) {
     throw new Error("Hubo un error al agregar el producto");
   }
 });
 
 //recibe y actualiza el producto segun si id existe
-productRouter.put("/:id", (req, res) => {
+productRouter.put("/:id", async (req, res) => {
   try {
+    if(req.body.adminStatus){
     let obj = {};
     obj.id = parseInt(req.params.id);
     obj.title = req.body.title;
     obj.price = req.body.price;
     obj.thumbnail = req.body.thumbnail;
 
-    let id = productos.updateById(obj);
+    let id = await productos.updateById(obj);
 
     res.send(id);
-    console.log(`Modificado producto id: ${id} `);
+    console.log(`Modificado producto id: ${id} `);}
+    else {res.json({
+      error: 
+        '-1'
+      , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+    });}
   } catch (error) {
     throw new Error("Hubo un error al actualizar el producto");
   }
 });
 
 //borra el producto con el id seleccionado
-productRouter.delete("/:id", (req, res) => {
+productRouter.delete("/:id", async (req, res) => {
   try {
+    if(req.body.adminStatus){
     let id = parseInt(req.params.id);
-    let obj = productos.deleteById(id);
+    let obj = await productos.deleteById(id);
 
-    res.send(obj);
+    res.send(obj);}
+    else {res.json({
+      error: 
+        '-1'
+      , description: `ruta ${req.originalUrl} metodo ${req.method} no autorizada` 
+    });}
   } catch (error) {
     throw new Error(`Hubo un error al borrar el producto`);
   }

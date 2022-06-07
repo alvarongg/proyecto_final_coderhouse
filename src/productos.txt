@@ -1,1 +1,0 @@
-[{"timestamp":"2022-06-06T22:44:49.817Z","name":"Nombre1123","description":"Descripcion del producto","code":"123425234235623","price":"9.99","stock":"16","thumbnail":"http://","id":1}]
