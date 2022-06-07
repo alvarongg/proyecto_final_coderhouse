@@ -1,11 +1,3 @@
 # Consigna 1
 
-![1](Consigna 1/Clase 14 -  Webpack_ Module Bundler-1.png)
-
-![2](Consigna 1/Clase 14 -  Webpack_ Module Bundler-2.png)
-
-![3](Consigna 1/Clase 14 -  Webpack_ Module Bundler-3.png)
-
-![4](Consigna 1/Clase 14 -  Webpack_ Module Bundler-4.png)
-
-![5](Consigna 1/Clase 14 -  Webpack_ Module Bundler-5.png)
+<img src="https://user-images.githubusercontent.com/8601103/172498801-c0bd9b18-944a-487f-aea4-bfe74d2b0794.png" width="90%"></img> <img src="https://user-images.githubusercontent.com/8601103/172498813-e8ede88d-05c6-4fb3-99ce-965d3ef1d04d.png" width="90%"></img> <img src="https://user-images.githubusercontent.com/8601103/172498822-424b91cc-2e78-4ff1-83b2-7dc09e08ce3b.png" width="90%"></img> <img src="https://user-images.githubusercontent.com/8601103/172498828-01ebc94d-8ab6-438a-b12c-c1f512e4e1f6.png" width="90%"></img> <img src="https://user-images.githubusercontent.com/8601103/172498835-4897cce0-b6ff-43e5-bf4e-41fcb6ad4305.png" width="90%"></img> 
