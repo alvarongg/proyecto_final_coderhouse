@@ -122,4 +122,4 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
   }
 });
 
-module.exports = { cartRouter, getAllCart, saveCart };
+module.exports = { cartRouter};

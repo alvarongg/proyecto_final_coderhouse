@@ -118,4 +118,4 @@ productRouter.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = {productRouter,getAllProd,saveProd,getProd};
+module.exports = {productRouter,getProd};
