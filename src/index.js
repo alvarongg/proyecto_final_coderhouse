@@ -1,11 +1,11 @@
 const express = require("express");
 const {productRouter }= require("./routers/productRouter.js");
 const {cartRouter}= require("./routers/cartRouter");
-const moment = require('moment'); 
 const path = require('path');
 const app = express();
 
-
+const envfile = path.join(__dirname,'..','.env');
+require('dotenv').config({path:envfile});
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +24,7 @@ app.use(function(req, res) {
         });
   });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`Estoy escuchando ${port}`);

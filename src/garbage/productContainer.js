@@ -130,7 +130,7 @@ module.exports = class productContainer {
    * @param {int} id
    * @returns Devuelve el objeto si lo encuentra
    */
-  async updateById(obj) {
+  async updateProductById(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
         await fileChecker(this.fileName);

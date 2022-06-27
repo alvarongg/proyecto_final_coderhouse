@@ -5,9 +5,9 @@ const moment = require('moment');
 console.log("Router Productos cargados");
 
 
-let productContainer = require("../models/productContainer.js");
+let ProductContainer = require("../models/daos/products/productDaoFs.js");
 let archivo_path = path.join(__dirname, '..', '/data/productos.json');
-let productos = new productContainer(archivo_path);
+let productos = new ProductContainer(archivo_path);
 
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
@@ -39,7 +39,7 @@ productRouter.get("/", async (req, res) => {
  productRouter.get("/:id", async (req, res) => {
   try {
     let id = parseInt(req.params.id);
-    let obj = await productos.getById(id);
+    let obj = await productos.getObjectById(id);
     console.log(obj);
     res.send(obj);
   } catch (error) {

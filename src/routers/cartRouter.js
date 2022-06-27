@@ -5,9 +5,9 @@ const path = require("path");
 const { getProd } = require("./productRouter.js");
 console.log("Router Carritos cargados");
 
-let cartContainer = require("../models/cartContainer.js");
+let CartContainer = require("../models/daos/cart/cartDaoFs.js");
 let archivo_path = path.join(__dirname, "..", "/data/carrito.json");
-let carritos = new cartContainer(archivo_path);
+let carritos = new CartContainer(archivo_path);
 
 cartRouter.use(express.json());
 cartRouter.use(express.urlencoded({ extended: true }));
@@ -34,7 +34,7 @@ cartRouter.get("/:id/productos", async (req, res) => {
   try {
     let id = parseInt(req.params.id);
     console.log(`carrito buscado: ${id}`);
-    let obj = await carritos.getCartById(id);
+    let obj = await carritos.getObjectById(id);
     console.log(obj);
     if(obj.error){res.send(obj);}else{
     if (obj[0].productos == undefined) {
