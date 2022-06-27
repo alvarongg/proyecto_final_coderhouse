@@ -24,7 +24,6 @@ npm run start
 
 ## Construido con 🛠️
 * [Docker :whale: ](https://www.docker.com/)
-
 * [Express🛰️](https://expressjs.com/es/4x/api.html)
 * [Moment.js](https://momentjs.com)
 * [dotEnv](https://www.npmjs.com/package/dotenv)
