@@ -2,6 +2,7 @@
 const path = require('path');
 let ecommerce_path = path.join(__dirname, '..', 'DB','ecommerce.sqlite');
 
+
 const optionsSqlite = {
   client: "sqlite3",
   connection: {
