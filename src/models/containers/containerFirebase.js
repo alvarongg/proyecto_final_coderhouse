@@ -1,0 +1,129 @@
+
+const path = require("path");
+const config_path = path.join(__dirname, ".","config", "coder-firebase.json");
+let admin = require("firebase-admin");
+
+let serviceAccount = require(config_path);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://coder-backend-26f3f-default-rtdb.firebaseio.com/"
+});
+
+
+
+//module.exports = 
+class ContenedorFb { 
+    constructor(db) {
+        this.db = admin.firestore();
+        this.query = this.db.collection(db);
+        
+    }
+
+ /**
+   * Guarda un objeto a firebase
+   * @param {string} obj
+   * @returns Id del objeto guardado
+   */
+  async saveObject(obj) {
+    try {
+
+      let id_max = await this.query.get().orderBy("id", desc).limit(1);
+      let index = 0;
+      //Valido que la tabla tenga objetos
+      if (id_max == 0) {
+        index = 1;
+      } else {
+        //sumar uno al id del ultimo elemento y agregarlo al id del objeto
+        index = id_max + 1;
+      }
+
+      obj.id = index;
+      //escribir firebase
+      await this.query.create(obj);
+      //devolver id
+      return obj.id;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+   /**
+   * Selecciona un objeto de firebase y lo devuleve
+   * @param {int} id
+   * @returns Devuelve el objeto si lo encuentra
+   */
+    async getObjectById(id) {
+        try {
+         
+            const products = await this.query.where('id','==',id).get();
+            const result = products.docs.map((doc) => doc.data())
+            
+          if (!result.length) {
+            return { error: "Objeto no encontrado" };
+          } else {
+            
+            return products.docs.map((doc) => doc.data());
+          }
+        } catch (error) {
+          throw error;
+        }
+      }
+
+
+       /**
+   *
+   * @returns Devuelve todos los objetos del array
+   */
+  async getAll() {
+    try {
+        const products = await this.query.get();
+        const result = products.docs.map((doc) => doc.data())
+        
+      if (!result.length) {
+        return { error: "Objeto no encontrado" };
+      } else {
+        
+        return products.docs.map((doc) => doc.data());
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  updateById(obj) {
+    try {
+      // let objIndex = this.container.findIndex(
+      //   (product) => product.id == obj.id
+      // );
+
+      // if (objIndex == -1) {
+      //   return { error: "producto no encontrado" };
+      // } else {
+      //   this.container[objIndex].title = obj.title;
+      //   this.container[objIndex].price = obj.price;
+      //   this.container[objIndex].thumbnail = obj.thumbnail;
+
+      //   return { estado: "Producto actualizado" };
+      // }
+      return {error: 'Funcionalidad updateById deprecada'};
+    } catch (error) {
+      throw error;
+    }
+  }
+
+}
+
+const probar = async () => {
+   
+  const firebase = new ContenedorFb('productos');
+
+  console.log(await firebase.getObjectById(2));
+  console.log(await firebase.getAll());
+  
+  
+  }
+
+
+  probar();
