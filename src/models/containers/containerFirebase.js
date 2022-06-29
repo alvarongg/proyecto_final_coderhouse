@@ -92,27 +92,35 @@ class ContenedorFb {
   }
 
 
-  updateById(obj) {
+  async updateById(obj) {
     try {
-      // let objIndex = this.container.findIndex(
-      //   (product) => product.id == obj.id
-      // );
-
-      // if (objIndex == -1) {
-      //   return { error: "producto no encontrado" };
-      // } else {
-      //   this.container[objIndex].title = obj.title;
-      //   this.container[objIndex].price = obj.price;
-      //   this.container[objIndex].thumbnail = obj.thumbnail;
-
-      //   return { estado: "Producto actualizado" };
-      // }
-      return {error: 'Funcionalidad updateById deprecada'};
+        await prodCollection
+        .doc(obj.id)
+        .update(obj)
+        .catch((error) => {
+          console.error("Error updating document: ", error);
+        });
+      return obj;
+      
     } catch (error) {
       throw error;
     }
   }
 
+  async deleteById(id) {
+    try {
+        await prodCollection
+        .doc(id)
+        .delete()
+        .catch((error) => {
+          console.error("Error deleting document: ", error);
+        });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+ 
 }
 
 const probar = async () => {
