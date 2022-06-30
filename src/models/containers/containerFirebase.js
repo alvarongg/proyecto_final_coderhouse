@@ -1,33 +1,27 @@
-
 const path = require("path");
-const config_path = path.join(__dirname, ".","config", "coder-firebase.json");
+const config_path = path.join(__dirname, ".", "config", "coder-firebase.json");
 let admin = require("firebase-admin");
 
 let serviceAccount = require(config_path);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://coder-backend-26f3f-default-rtdb.firebaseio.com/"
+  databaseURL: "https://coder-backend-26f3f-default-rtdb.firebaseio.com/",
 });
 
+module.exports = class ContenedorFb {
+  constructor(db) {
+    this.db = admin.firestore();
+    this.query = this.db.collection(db);
+  }
 
-
-//module.exports = 
-class ContenedorFb { 
-    constructor(db) {
-        this.db = admin.firestore();
-        this.query = this.db.collection(db);
-        
-    }
-
- /**
+  /**
    * Guarda un objeto a firebase
    * @param {string} obj
    * @returns Id del objeto guardado
    */
   async saveObject(obj) {
     try {
-
       let id_max = await this.query.get().orderBy("id", desc).limit(1);
       let index = 0;
       //Valido que la tabla tenga objetos
@@ -48,42 +42,19 @@ class ContenedorFb {
     }
   }
 
-   /**
+  /**
    * Selecciona un objeto de firebase y lo devuleve
    * @param {int} id
    * @returns Devuelve el objeto si lo encuentra
    */
-    async getObjectById(id) {
-        try {
-         
-            const products = await this.query.where('id','==',id).get();
-            const result = products.docs.map((doc) => doc.data())
-            
-          if (!result.length) {
-            return { error: "Objeto no encontrado" };
-          } else {
-            
-            return products.docs.map((doc) => doc.data());
-          }
-        } catch (error) {
-          throw error;
-        }
-      }
-
-
-       /**
-   *
-   * @returns Devuelve todos los objetos del array
-   */
-  async getAll() {
+  async getObjectById(id) {
     try {
-        const products = await this.query.get();
-        const result = products.docs.map((doc) => doc.data())
-        
+      const products = await this.query.where("id", "==", id).get();
+      const result = products.docs.map((doc) => doc.data());
+
       if (!result.length) {
         return { error: "Objeto no encontrado" };
       } else {
-        
         return products.docs.map((doc) => doc.data());
       }
     } catch (error) {
@@ -91,25 +62,50 @@ class ContenedorFb {
     }
   }
 
+  /**
+   *
+   * @returns Devuelve todos los objetos del la coleccion
+   */
+  async getAll() {
+    try {
+      const products = await this.query.get();
+      const result = products.docs.map((doc) => doc.data());
 
+      if (!result.length) {
+        return { error: "Objeto no encontrado" };
+      } else {
+        return products.docs.map((doc) => doc.data());
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+   /**
+   * Recibe un objeto y updatea el id del producto 
+   * @param {int} id
+   * @returns el objeto actualizado
+   */
   async updateById(obj) {
     try {
-        await prodCollection
+      await this.query
         .doc(obj.id)
         .update(obj)
         .catch((error) => {
           console.error("Error updating document: ", error);
         });
       return obj;
-      
     } catch (error) {
       throw error;
     }
   }
 
+   /** Recibe un id y lo borra de la collecion en firebase
+   * @param {int} id
+   */
   async deleteById(id) {
     try {
-        await prodCollection
+      await this.query
         .doc(id)
         .delete()
         .catch((error) => {
@@ -119,19 +115,13 @@ class ContenedorFb {
       throw error;
     }
   }
-
- 
 }
 
-const probar = async () => {
-   
-  const firebase = new ContenedorFb('productos');
+// const probar = async () => {
+//   const firebase = new ContenedorFb("productos");
 
-  console.log(await firebase.getObjectById(2));
-  console.log(await firebase.getAll());
-  
-  
-  }
+//   console.log(await firebase.getObjectById(2));
+//   console.log(await firebase.getAll());
+// };
 
-
-  probar();
+// probar();
