@@ -117,11 +117,3 @@ module.exports = class ContenedorFb {
   }
 }
 
-// const probar = async () => {
-//   const firebase = new ContenedorFb("productos");
-
-//   console.log(await firebase.getObjectById(2));
-//   console.log(await firebase.getAll());
-// };
-
-// probar();
