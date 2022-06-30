@@ -38,4 +38,8 @@ npm run start
 * [SqLite3](https://www.sqlite.org/docs.html)
 * [FS](https://nodejs.org/api/fs.html)
 
-
+### nota permisos de carpeta data despues de correr mongodb en Docker
+```bash
+find ./data -type d -exec chmod 755 {} \;
+find ./data -type f -exec chmod 644 {} \;
+```
