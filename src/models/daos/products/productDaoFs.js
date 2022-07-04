@@ -15,7 +15,7 @@ module.exports =  class ProductsDaoFs extends ContainerFs {
    * @param {int} id
    * @returns Devuelve el objeto si lo encuentra
    */
-  async updateProductById(obj) {
+  async updateById(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
         await fileChecker(this.fileName);

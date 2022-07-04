@@ -6,12 +6,11 @@
 // //console.log(resultados);
 console.log("pruebas");
 const mongoose = require("mongoose");
-const { createPoolCluster } = require("mysql2");
+
 
 const Schema = mongoose.Schema;
 
-// module.exports =
-class ContenedorMongoDB {
+module.exports = class ContenedorMongoDB {
   constructor(collection) {
     this.mongo =
       "mongodb+srv://admincoder:ROR1XEuz3f2ziDbZ@cluster-coderhouse.xmxgb1s.mongodb.net/ecommerce?retryWrites=true&w=majority";
