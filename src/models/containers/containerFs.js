@@ -1,3 +1,4 @@
+console.log("Container File System -- Cargado");
 const fs = require("fs");
 
 /**
@@ -57,7 +58,7 @@ const fileChecker = async (fileName) => {
   }
 };
 
-module.exports = class cartContainer {
+module.exports = class ContainerFs {
   constructor(fileName) {
     //this.container = [];
     this.fileName = fileName;
@@ -68,7 +69,7 @@ module.exports = class cartContainer {
    * @param {string} obj
    * @returns Id del objeto guardado
    */
-  async createObject(obj) {
+  async saveObject(obj) {
     try {
         //chequeo que el archivo exista si no existe lo creo
          await fileChecker(this.fileName);
@@ -122,35 +123,6 @@ module.exports = class cartContainer {
   }
 
   /**
-   * Selecciona un objeto del archivo y lo devuleve
-   * @param {int} id
-   * @returns Devuelve el objeto si lo encuentra
-   */
-  async addObjtoFatherById(obj) {
-    try {
-        //chequeo que el archivo exista si no existe lo creo
-        await fileChecker(this.fileName);
-
-      let array = await fileToArray(this.fileName);
-      let objIndex = array.findIndex(
-        (cart) => cart.id == obj.id
-      );
-
-      if (objIndex == -1) {
-        return { error: "Carrito no encontrado" };
-      } else {
-
-        array[objIndex].productos.push(obj.productos[0]);
-
-        await arrayToFile(this.fileName, array);
-        return { estado: "Carrito actualizado" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  /**
    *
    * @returns Devuelve todos los objetos del array
    */
@@ -190,40 +162,6 @@ module.exports = class cartContainer {
     }
   }
 
-  /**
-   * Borra el producto con le id carrito y id produ seleccionado en el array
-   * @param {obj} .id_cart .id_prod
-   */
-   async deleteElementInObjectById(obj) {
-    try {
-      //chequeo que el archivo exista si no existe lo creo
-      await fileChecker(this.fileName);
-
-      let array = await fileToArray(this.fileName);
-      let objIndex = array.findIndex(
-        (cart) => cart.id == obj.id
-      );
-
-      if (objIndex == -1) {
-        return { error: "Objeto no encontrado" };
-      } else {
-      
-        let arrayCart =  array[objIndex].productos
-    
-        arrayCart = arrayCart.filter((x) => {
-            return x.id != obj.id_prod;
-          });
-        
-        array[objIndex].productos = arrayCart;
-       
-        console.log(array);
-        await arrayToFile(this.fileName, array);
-        return { estado: "Objeto actualizado" };
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
 
 
   /**

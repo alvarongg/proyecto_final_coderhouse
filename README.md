@@ -10,21 +10,36 @@
 ```bash
 npm i 
 ```
-* Ejecucion del proyecto handlebars (se ejecuta en puerto 8080)
+* Ejecucion del proyecto (se ejecuta en puerto 8080 por defecto)
 ```bash
 npm run start
 ```
-## Implementacion en Glitch.com :sparkler:
+<!-- ## Implementacion en Glitch.com :sparkler:
 
 * [Live :spider_web:](https://tar-imaginary-gate.glitch.me)
-* [Code :desktop_computer:](https://glitch.com/edit/#!/tar-imaginary-gate)
+* [Code :desktop_computer:](https://glitch.com/edit/#!/tar-imaginary-gate) -->
 
 ## API Endpoint Producto
 [Documentacion API :jigsaw:](docs/DocumentacionAPi/api.md)
 
 ## Construido con 🛠️
-
+* [Docker :whale: ](https://www.docker.com/)
 * [Express🛰️](https://expressjs.com/es/4x/api.html)
 * [Moment.js](https://momentjs.com)
+* [dotEnv](https://www.npmjs.com/package/dotenv)
+* [dotEnv-Expand](https://www.npmjs.com/package/dotenv-expand)
+* [Mogoose](https://www.npmjs.com/package/mongoose)
+* [Knex.js :floppy_disk:](http://knexjs.org/#Builder)
 
+### Databases and persistence   
+* [Firebase](https://firebase.google.com/docs)
+* [MongoDB](https://www.mongodb.com/docs/)
+* [MySQL](https://dev.mysql.com/doc/)
+* [SqLite3](https://www.sqlite.org/docs.html)
+* [FS](https://nodejs.org/api/fs.html)
 
+### nota permisos de carpeta data despues de correr mongodb en Docker
+```bash
+find ./data -type d -exec chmod 755 {} \;
+find ./data -type f -exec chmod 644 {} \;
+```
