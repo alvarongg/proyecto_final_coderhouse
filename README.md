@@ -1,6 +1,6 @@
 # Proyecto Final Curso Backend CoderHouse 2022
 
-[Documentacion Consigna 1](docs/Consignas/consignas.md)
+[Documentacion Consigna 1 y 2](docs/Consignas/consignas.md)
 
 ## Despliegue 📦
 
