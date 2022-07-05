@@ -1,3 +1,4 @@
+console.log("Container File System -- Cargado");
 const fs = require("fs");
 
 /**

@@ -1,19 +1,10 @@
-// const mongo = new MongoClient("mongodb+srv://richard:coder.richard@cluster0.rmt0y.mongodb.net/?retryWrites=true&w=majority");
-// await mongo.connect();
-// await mongo.db("comercio").collection("usuarios").insert({nombre: "Otro", apellido: "Usuario", dni: "37124321"});
-// console.log('Ingresado correctamente');
-// //const resultados = await mongo.db("comercio").collection("usuarios").find().toArray();
-// //console.log(resultados);
-console.log("pruebas");
+console.log("Container MongoDB -- Cargado");
 const mongoose = require("mongoose");
-
-
 const Schema = mongoose.Schema;
 
 module.exports = class ContenedorMongoDB {
   constructor(collection) {
-    this.mongo =
-      "mongodb+srv://admincoder:ROR1XEuz3f2ziDbZ@cluster-coderhouse.xmxgb1s.mongodb.net/ecommerce?retryWrites=true&w=majority";
+    this.mongo ="mongodb+srv://admincoder:ROR1XEuz3f2ziDbZ@cluster-coderhouse.xmxgb1s.mongodb.net/ecommerce?retryWrites=true&w=majority";
     this.db = "ecommerce";
     this.collection = collection;
     this.schema = new Schema({
@@ -47,9 +38,9 @@ module.exports = class ContenedorMongoDB {
         }
       );
 
-      const moodelo = mongoose.model(this.collection, this.schema);
+      const modelo = mongoose.model(this.collection, this.schema);
 
-      const id_max = await moodelo
+      const id_max = await modelo
         .findOne({})
         .select("id_interno")
         .sort({ id_interno: -1 })
@@ -66,7 +57,7 @@ module.exports = class ContenedorMongoDB {
       obj.id_interno = index;
       console.log(obj);
       //escribir en MongoDB
-      const objAguardar = new moodelo(obj);
+      const objAguardar = new modelo(obj);
       await objAguardar.save();
 
       //devolver id
@@ -98,9 +89,9 @@ module.exports = class ContenedorMongoDB {
         }
       );
 
-      const moodelo = mongoose.model(this.collection, this.schema);
+      const modelo = mongoose.model(this.collection, this.schema);
 
-      const product = await moodelo.findOne({ id_interno: fId });
+      const product = await modelo.findOne({ id_interno: fId });
       console.log(product);
       if (!product) {
         return { error: "Objeto no encontrado" };
@@ -134,10 +125,10 @@ module.exports = class ContenedorMongoDB {
         }
       );
 
-      const moodelo = mongoose.model(this.collection, this.schema);
+      const modelo = mongoose.model(this.collection, this.schema);
 
       console.log("ejecuto query");
-      const products = await moodelo.find({}).exec();
+      const products = await modelo.find({}).exec();
 
       console.log(products);
       console.log(!products.length);
@@ -173,9 +164,9 @@ module.exports = class ContenedorMongoDB {
         }
       );
 
-      const moodelo = mongoose.model(this.collection, this.schema);
+      const modelo = mongoose.model(this.collection, this.schema);
 
-      await moodelo.updateOne({ id_interno: obj.id_interno }, { $set: obj });
+      await modelo.updateOne({ id_interno: obj.id_interno }, { $set: obj });
       return obj;
     } catch (error) {
       throw error;
@@ -202,9 +193,9 @@ module.exports = class ContenedorMongoDB {
         }
       );
 
-      const moodelo = mongoose.model(this.collection, this.schema);
+      const modelo = mongoose.model(this.collection, this.schema);
 
-      await moodelo.deleteMany({ id_interno: fId });
+      await modelo.deleteMany({ id_interno: fId });
     } catch (error) {
       throw error;
     }
@@ -220,22 +211,22 @@ module.exports = class ContenedorMongoDB {
 
 // probar();
 
-const probar = async () => {
-  const bd = new ContenedorMongoDB("productos");
+// const probar = async () => {
+//   const bd = new ContenedorMongoDB("productos");
 
-  //console.log(await bd.getAll());
+//   //console.log(await bd.getAll());
 
-  obj = {
-    title: "Producto_modificado",
-    price: 9.99,
-    thumbnail: "http>//productoprueba",
-    stock: 100,
-    id_interno: 5,
-  };
+//   obj = {
+//     title: "Producto_modificado",
+//     price: 9.99,
+//     thumbnail: "http>//productoprueba",
+//     stock: 100,
+//     id_interno: 5,
+//   };
 
-  // console.log(await bd.saveObject(obj));
+//   // console.log(await bd.saveObject(obj));
 
-  console.log(await bd.deleteById(4));
-};
+//   console.log(await bd.deleteById(4));
+// };
 
-probar();
+// probar();

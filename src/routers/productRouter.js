@@ -4,21 +4,22 @@ const path = require('path');
 const moment = require('moment'); 
 console.log("Router Productos cargados");
 
+let dao 
+if(process.env.PERSISTENS_METHOD == 'FIREBASE'){
+  dao = "../models/daos/products/productDaoFirebase.js"
+}else if(process.env.PERSISTENS_METHOD == 'MONGO'){
+  dao = "../models/daos/products/productDaoMongoDb.js"
+}else{
+  dao = "../models/daos/products/productDaoFs.js"
+}
 
-let ProductContainer = require("../models/daos/products/productDaoFs.js");
+let ProductContainer = require(dao)
+
 let archivo_path = path.join(__dirname, '..', '/data/productos.json');
 let productos = new ProductContainer(archivo_path);
 
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
-
-// function getAllProd(){
-//   return productos.getAll();
-// }
-
-// function saveProd(obj){
-//   return productos.save(obj);
-// }
 
 function getProd(id){
   return productos.getById(id);
@@ -51,6 +52,7 @@ productRouter.get("/", async (req, res) => {
 //solo admins
 productRouter.post("/", async (req, res) => {
   try {
+    
     if(req.body.adminStatus){
             let obj = {};
 
@@ -61,7 +63,7 @@ productRouter.post("/", async (req, res) => {
             obj.price = req.body.price;
             obj.stock = req.body.stock;
             obj.thumbnail = req.body.thumbnail;
-            let id = await productos.save(obj);
+            let id = await productos.saveObject(obj);
                         
             res.send({id});
             console.log(`Nuevo producto id: ${id} `);
@@ -69,7 +71,7 @@ productRouter.post("/", async (req, res) => {
   else {res.json({
     error: 
       '-1'
-    , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+    , description: `ruta ${req.originalUrl} metodo ${req.method}  no autorizada` 
   });}
   } catch (error) {
     throw new Error("Hubo un error al agregar el producto");
@@ -79,6 +81,7 @@ productRouter.post("/", async (req, res) => {
 //recibe y actualiza el producto segun si id existe
 productRouter.put("/:id", async (req, res) => {
   try {
+    //REFACTOR
     if(req.body.adminStatus){
     let obj = {};
     obj.id = parseInt(req.params.id);
@@ -93,7 +96,7 @@ productRouter.put("/:id", async (req, res) => {
     else {res.json({
       error: 
         '-1'
-      , description: `ruta ${req.originalUrl} metodo ${req.method} no implementada` 
+      , description: `ruta ${req.originalUrl} metodo ${req.method}  no autorizada` 
     });}
   } catch (error) {
     throw new Error("Hubo un error al actualizar el producto");

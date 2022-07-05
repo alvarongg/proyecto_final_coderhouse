@@ -5,20 +5,24 @@ const path = require("path");
 const { getProd } = require("./productRouter.js");
 console.log("Router Carritos cargados");
 
-let CartContainer = require("../models/daos/cart/cartDaoFs.js");
-let archivo_path = path.join(__dirname, "..", "/data/carrito.json");
+let archivo_path
+let dao 
+if(process.env.PERSISTENS_METHOD == 'FIREBASE'){
+  dao = "../models/daos/cart/cartDaoFirebase.js"
+}else if(process.env.PERSISTENS_METHOD == 'MONGO'){
+  dao = "../models/daos/cart/cartDaoMongoDb.js"
+}else{
+  dao = "../models/daos/cart/cartDaoFs.js"
+  archivo_path = path.join(__dirname, "..", "/data/carrito.json");
+}
+
+
+let CartContainer = require(dao);
 let carritos = new CartContainer(archivo_path);
 
 cartRouter.use(express.json());
 cartRouter.use(express.urlencoded({ extended: true }));
 
-// function getAllCart() {
-//   return carritos.getAll();
-// }
-
-// function saveCart(obj) {
-//   carritos.save(obj);
-// }
 
 //devuelve todos los carritos
 cartRouter.get("/", async (req, res) => {
@@ -53,7 +57,7 @@ cartRouter.get("/:id/productos", async (req, res) => {
 cartRouter.post("/:id/productos", async (req, res) => {
   try {
     let obj = {};
-
+    //REFACTOR
     obj.id = parseInt(req.params.id);
 
     let productId = parseInt(req.body.productoId);
@@ -83,8 +87,9 @@ cartRouter.post("/", async (req, res) => {
 
     obj.timestamp = moment();
     obj.productos = [];
-
-    let id = await carritos.createCart(obj);
+    
+    console.log('creacion del carrito nuevo')
+    let id = await carritos.saveObject(obj);
 
     res.send({ id });
 
@@ -98,7 +103,7 @@ cartRouter.post("/", async (req, res) => {
 cartRouter.delete("/:id", async (req, res) => {
   try {
     let id = parseInt(req.params.id);
-    let obj = await carritos.deleteCartById(id);
+    let obj = await carritos.deleteById(id);
 
     res.send(obj);
   } catch (error) {
@@ -109,6 +114,7 @@ cartRouter.delete("/:id", async (req, res) => {
 //borra productos seleccionado del carrito pasado por parametro
 cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
   try {
+    ///REFACTOR
     let deleteCombo = {};
     let id = parseInt(req.params.id);
     let id_prod = parseInt(req.params.id_prod);
